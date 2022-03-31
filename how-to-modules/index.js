@@ -8,25 +8,28 @@
 
 // logger le résultat
 
+const a = process.argv[3];
+const b = process.argv[4];
+
 switch (process.argv[2]) {
   case "sum": {
     const operation = require("./sum");
     console.log("Addition : ");
-    operation.sum(2, 3);
+    operation.sum(a, b);
 
     break;
   }
   case "minus": {
     const minus = require("./minus");
     console.log("Soustraction : ");
-    console.log(minus(2, 3));
+    console.log(minus(a, b));
     break;
   }
   case "product": {
     const product = require("./product");
 
     console.log("Produit : ");
-    console.log(product(2, 3));
+    console.log(product(a, b));
 
     break;
   }
@@ -34,7 +37,7 @@ switch (process.argv[2]) {
     const divide = require("./divide");
 
     console.log("Division : ");
-    console.log(divide(2, 3));
+    console.log(divide(a, b));
 
     break;
   }

@@ -8,6 +8,8 @@
 
 // logger le résultat
 
+import chalk from "chalk";
+
 const a = process.argv[3];
 const b = process.argv[4];
 
@@ -42,7 +44,11 @@ switch (process.argv[2]) {
     break;
   }
   default: {
-    console.error("Merci de choisir la bonne opération !!!");
+    console.error(
+      chalk.bold(
+        chalk.red("Merci de choisir la bonne opération " + chalk.green("!!!"))
+      )
+    );
     break;
   }
 }

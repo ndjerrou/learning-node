@@ -8,8 +8,6 @@ const products = [];
 
 // CRUD - create - delete - update - read
 
-// REST [GET /products, GET /products/id, POST /products, UPDATE /products/id, DELETE /products/id]
-
 for (let i = 0; i < 20; i++) {
   products[i] = {
     id: uuidv4(),
@@ -46,7 +44,6 @@ function splitCurrency(price) {
 }
 
 // endpoints
-
 app.get("/products", (req, res) => {
   // get the filter (via query string parameter)
   const queryKeys = Object.keys(req.query);
@@ -69,13 +66,20 @@ app.get("/products", (req, res) => {
   res.send(response);
 });
 
-// id  is route parameter
-app.get("/products/:id", (req, res) => {
-  res.send(req.params);
+// REST [GET /products, GET /products/id, POST /products, UPDATE /products/id, DELETE /products/id]
 
-  // récupérer l'id de la requête
-  // renvoyer le produit correspondant
+// id  is a route parameter
+app.get("/products/:id", (req, res) => {
+  const { id } = req.params;
+
+  const product = products.find((product) => product.id === id);
+
+  //@TODO : handle the case where the id is not into the DB
+
+  res.send(product);
 });
+
+// ex : make the delete products route available
 
 const PORT = 3000;
 

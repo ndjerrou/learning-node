@@ -4,6 +4,21 @@ const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
+const products = [];
+
+// CRUD - create - delete - update - read
+
+// REST [GET /products, GET /products/id, POST /products, UPDATE /products/id, DELETE /products/id]
+
+for (let i = 0; i < 20; i++) {
+  products[i] = {
+    id: uuidv4(),
+    name: faker.commerce.productName(),
+    price: "$" + faker.commerce.price(),
+    desc: faker.commerce.productDescription,
+  };
+}
+
 // VERB + ENDPOINT
 app.get("", (req, res) => {
   //route handler
@@ -25,31 +40,41 @@ app.get("", (req, res) => {
   res.send({ name: "nissim", age: 30 });
 });
 
-// endpoint /products
+function splitCurrency(price) {
+  const splittedPrice = price.split("$")[1];
+  return +splittedPrice;
+}
+
+// endpoints
 
 app.get("/products", (req, res) => {
   // get the filter (via query string parameter)
+  const queryKeys = Object.keys(req.query);
 
-  const products = [];
+  if (!queryKeys.length) return res.send(products);
+  const { maximumPrice, nbProducts } = req.query;
 
-  for (let i = 0; i < 10; i++) {
-    products[i] = {
-      id: uuidv4(),
-      name: faker.commerce.productName(),
-      price: "$" + faker.commerce.price(),
-      desc: faker.commerce.productDescription,
-    };
+  const response = [];
+
+  const filteredProducts = products.filter(({ price }) => {
+    const numberPrice = splitCurrency(price);
+    return numberPrice <= maximumPrice;
+  });
+
+  if (filteredProducts.length <= nbProducts) return res.send(filteredProducts);
+
+  for (let i = 0; i <= nbProducts; i++) {
+    response.push(filteredProducts[i]);
   }
+  res.send(response);
+});
 
-  //ex
+// id  is route parameter
+app.get("/products/:id", (req, res) => {
+  res.send(req.params);
 
-  // Vous devez envoyer deux QSP : price (prix maximum) et nbProducts (côté front)
-
-  // intercepter ces QSP
-
-  // Par rapport à ces QSP, vous devez renvoyer la data correspondante
-
-  res.send(products);
+  // récupérer l'id de la requête
+  // renvoyer le produit correspondant
 });
 
 const PORT = 3000;

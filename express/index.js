@@ -3,6 +3,7 @@ const { faker } = require("@faker-js/faker");
 const { v4: uuidv4 } = require("uuid");
 
 const app = express();
+app.use(express.json());
 
 const products = [];
 
@@ -90,6 +91,21 @@ app.delete("/products/:id", (req, res) => {
   const filteredProducts = products.splice(idx, 1);
 
   res.send(filteredProducts[0]);
+});
+
+app.post("/products", (req, res) => {
+  // getting the payload of the request...
+  console.log(req.body);
+
+  // 1 - validate the incoming payload - npm i joi
+
+  // 2 - create a new product
+
+  // 3 - add to the DB
+
+  // 4 - send back the product created
+
+  res.send("ok");
 });
 
 const PORT = 3000;

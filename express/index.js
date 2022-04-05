@@ -80,6 +80,17 @@ app.get("/products/:id", (req, res) => {
 });
 
 // ex : make the delete products route available
+app.delete("/products/:id", (req, res) => {
+  const { id } = req.params;
+
+  // const filteredProducts = products.filter((product) => product.id !== id);
+
+  const idx = products.findIndex((product) => product.id === id);
+
+  const filteredProducts = products.splice(idx, 1);
+
+  res.send(filteredProducts[0]);
+});
 
 const PORT = 3000;
 

@@ -17,7 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(permission);
+// app.use(permission);
 
 const products = [];
 
@@ -109,7 +109,7 @@ app.delete("/products/:id", (req, res) => {
   res.send(filteredProducts[0]);
 });
 
-app.post("/products", (req, res) => {
+app.post("/products", validatePayload, (req, res) => {
   // getting the payload of the request...
   console.log(req.body);
 
@@ -124,6 +124,18 @@ app.post("/products", (req, res) => {
   const {
     error: { details },
   } = schema.validate(req.body);
+
+  ////////////////////////////////////////////////////////////////
+
+  // Ex
+
+  // create the validatePayload fn
+
+  // if the body is valid, on passe la main au controlleur
+
+  // if the body is not valid, on renvoie un message d'erreur au client
+
+  ////////////////////////////////////////////////////////////////
 
   // 2 - create a new product
 

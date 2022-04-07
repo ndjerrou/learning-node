@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ndjerrou/learning-node#readme",
   "dependencies": {
     "express": "^4.17.3",
+    "joi": "^17.6.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

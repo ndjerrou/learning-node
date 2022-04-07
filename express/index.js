@@ -1,9 +1,27 @@
 const express = require("express");
 const { faker } = require("@faker-js/faker");
 const { v4: uuidv4 } = require("uuid");
+const Joi = require("joi");
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // a middleware
+
+// a middleware is just a function
+
+// next() : pass to the next middleware
+app.use((req, res, next) => {
+  console.log("salut, je suis un middleware");
+
+  next();
+});
+
+// ex: créer un middleware :
+
+// vérifier l'opération demandée par le client
+
+// operation = GET : logguer bienvenu à toi et l'api renvoie le résultat de l'opération souhaitée
+
+// operation = POST, UPDATE..., renvoie une réponse au client qui lui dit "Fordbidden access"
 
 const products = [];
 
@@ -46,6 +64,8 @@ function splitCurrency(price) {
 
 // endpoints
 app.get("/products", (req, res) => {
+  console.log("GET /products");
+
   // get the filter (via query string parameter)
   const queryKeys = Object.keys(req.query);
 
@@ -97,7 +117,17 @@ app.post("/products", (req, res) => {
   // getting the payload of the request...
   console.log(req.body);
 
-  // 1 - validate the incoming payload - npm i joi
+  // 1 - validate the incoming payload - npm i joi (joi.dev)
+
+  const schema = Joi.object({
+    name: Joi.string().min(6).max(30).required(),
+    price: Joi.number().required(),
+    desc: Joi.string().min(10).max(255),
+  });
+
+  const {
+    error: { details },
+  } = schema.validate(req.body);
 
   // 2 - create a new product
 
@@ -105,7 +135,7 @@ app.post("/products", (req, res) => {
 
   // 4 - send back the product created
 
-  res.send("ok");
+  res.send(details[0].message);
 });
 
 const PORT = 3000;

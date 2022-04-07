@@ -3,6 +3,8 @@ const { faker } = require("@faker-js/faker");
 const { v4: uuidv4 } = require("uuid");
 const Joi = require("joi");
 
+const permission = require("./middlewares/permission");
+
 const app = express();
 app.use(express.json()); // a middleware
 
@@ -15,13 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ex: créer un middleware :
-
-// vérifier l'opération demandée par le client
-
-// operation = GET : logguer bienvenu à toi et l'api renvoie le résultat de l'opération souhaitée
-
-// operation = POST, UPDATE..., renvoie une réponse au client qui lui dit "Fordbidden access"
+app.use(permission);
 
 const products = [];
 

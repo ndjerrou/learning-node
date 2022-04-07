@@ -4,6 +4,8 @@ const { v4: uuidv4 } = require("uuid");
 const Joi = require("joi");
 
 const permission = require("./middlewares/permission");
+const validatePayload = require("./middlewares/validatePayload");
+const splitCurrency = require("./utilities/splitCurrency");
 
 const app = express();
 app.use(express.json()); // a middleware
@@ -52,11 +54,6 @@ app.get("", (req, res) => {
 
   res.send({ name: "nissim", age: 30 });
 });
-
-function splitCurrency(price) {
-  const splittedPrice = price.split("$")[1];
-  return +splittedPrice;
-}
 
 // endpoints
 app.get("/products", (req, res) => {
@@ -110,40 +107,30 @@ app.delete("/products/:id", (req, res) => {
 });
 
 app.post("/products", validatePayload, (req, res) => {
-  // getting the payload of the request...
-  console.log(req.body);
-
   // 1 - validate the incoming payload - npm i joi (joi.dev)
 
-  const schema = Joi.object({
-    name: Joi.string().min(6).max(30).required(),
-    price: Joi.number().required(),
-    desc: Joi.string().min(10).max(255),
-  });
+  // cf validatePayload middleware
 
-  const {
-    error: { details },
-  } = schema.validate(req.body);
-
-  ////////////////////////////////////////////////////////////////
-
-  // Ex
-
-  // create the validatePayload fn
-
-  // if the body is valid, on passe la main au controlleur
-
-  // if the body is not valid, on renvoie un message d'erreur au client
-
-  ////////////////////////////////////////////////////////////////
+  const { name, price, desc } = req.body;
 
   // 2 - create a new product
 
+  const product = {
+    id: uuidv4(),
+    name,
+    price,
+    desc,
+  };
+
   // 3 - add to the DB
+  products.push(product);
 
   // 4 - send back the product created
+  res.status(201).send(product);
+});
 
-  res.send(details[0].message);
+app.put("/products", (req, res) => {
+  //@TODO
 });
 
 const PORT = 3000;

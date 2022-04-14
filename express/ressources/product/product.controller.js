@@ -29,13 +29,23 @@ router
     }
   });
 
-router.route("/:id").get(async (req, res) => {
-  try {
-    const product = await Product.findById({ _id: req.params.id });
-    res.send(product);
-  } catch (err) {
-    res.status(500).send({ err: true, message: err.message });
-  }
-});
+router
+  .route("/:id")
+  .get(async (req, res) => {
+    try {
+      const product = await Product.findById({ _id: req.params.id });
+      res.send(product);
+    } catch (err) {
+      res.status(500).send({ err: true, message: err.message });
+    }
+  })
+  .delete(async (req, res) => {
+    try {
+      await Product.findByIdAndDelete({ _id: req.params.id });
+      res.status(200).send("Product deleted");
+    } catch (err) {
+      res.status(500).send({ err: true, message: err.message });
+    }
+  });
 
 module.exports = router;

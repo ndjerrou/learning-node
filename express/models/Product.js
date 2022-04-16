@@ -14,7 +14,7 @@ const productSchema = mongoose.Schema({
     min: 5,
     max: [50, "We sell only used clothes"],
   },
-  desc: String,
+  color: String,
   creationDate: { type: Date, default: Date.now },
 });
 

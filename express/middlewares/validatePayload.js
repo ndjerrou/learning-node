@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
     name: Joi.string().min(6).max(30).required(),
     price: Joi.number().required(),
     desc: Joi.string().min(10).max(255),
+    color: Joi.string(),
   });
 
   const { error } = schema.validate(req.body);

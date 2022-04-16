@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/ndjerrou/learning-node#readme",
   "dependencies": {
+    "axios": "^0.26.1",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "joi": "^17.6.0",
     "mongoose": "^6.2.11",

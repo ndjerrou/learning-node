@@ -7,7 +7,7 @@ const validatePayload = require("./middlewares/validatePayload");
 const splitCurrency = require("./utilities/splitCurrency");
 const connect = require("./connection/connect");
 const product = require("./ressources/product/product.controller");
-
+const cors = require("cors");
 connect();
 
 const app = express();

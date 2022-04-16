@@ -1,5 +1,4 @@
 const express = require("express");
-const { faker } = require("@faker-js/faker");
 const { v4: uuidv4 } = require("uuid");
 const Joi = require("joi");
 

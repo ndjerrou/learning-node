@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node express/index.js",
     "dev": "nodemon express/index.js"
   },
   "repository": {
